@@ -1,10 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import CustomerList from './CustomerList';
+import UpdateForm from './UpdateForm';
 
 function App() {
+  const customerData = [
+    { name: 'Jack Jackson', email: 'jackj@abc.com', pass: 'jackj' },
+    { name: 'Katie Kates', email: 'katiek@abc.com', pass: 'katiek' },
+    { name: 'Glen Glenns', email: 'gleng@abs.com', pass: 'gleng' }
+  ];
+
   return (
     <div className="App">
-      Hello world!
+      <CustomerList customers={customerData} />
+      <UpdateForm />
     </div>
   );
 }
