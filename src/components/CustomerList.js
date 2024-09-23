@@ -1,6 +1,10 @@
 import React from 'react';
 
 function CustomerList({ customers }) {
+  const handleListClick = (customer) => {
+    console.log("in handleListClick()", customer);
+  };
+
   return (
     <div>
       <h2>Customer List</h2>
@@ -14,7 +18,11 @@ function CustomerList({ customers }) {
         </thead>
         <tbody>
           {customers && customers.map((customer, index) => (
-            <tr key={index}>
+            <tr 
+              key={index} 
+              onClick={() => handleListClick(customer)}
+              style={{ cursor: 'pointer' }}
+            >
               <td>{customer.name}</td>
               <td>{customer.email}</td>
               <td>{customer.pass}</td>
