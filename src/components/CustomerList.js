@@ -69,7 +69,7 @@ function CustomerList({ customers, selectedCustomer, onCustomerSelect }) {
             >
               <td style={styles.dataCell}>{customer.name}</td>
               <td style={styles.dataCell}>{customer.email}</td>
-              <td style={styles.dataCell}>{customer.pass}</td>
+              <td style={styles.dataCell}>{customer.password}</td>
             </tr>
           ))}
         </tbody>

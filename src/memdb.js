@@ -73,5 +73,3 @@ function getNextId(){
   }  
   return maxid + 1;
 }
-
-

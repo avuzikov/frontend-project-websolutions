@@ -1,6 +1,6 @@
 import React from 'react';
 
-function UpdateForm({ selectedCustomer }) {
+function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
   const onDeleteClick = () => {
     console.log('in onDeleteClick()');
   };
@@ -10,7 +10,7 @@ function UpdateForm({ selectedCustomer }) {
   };
 
   const onCancelClick = () => {
-    console.log('in onCancelClick()');
+    onDeselectCustomer();
   };
 
   const styles = {
@@ -19,32 +19,36 @@ function UpdateForm({ selectedCustomer }) {
       padding: '10px'
     },
     header: {
-      backgroundColor: '#d0d0d0',
-      padding: '5px',
-      margin: '0 0 10px 0'
+      margin: '0 0 10px 0',
+      padding: '5px'
     },
-    form: {
-      backgroundColor: 'white',
-      padding: '20px'
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      backgroundColor: 'white'
     },
     row: {
-      display: 'flex',
-      borderBottom: '1px solid #ccc',
-      padding: '10px 0'
+      borderBottom: '1px solid #ccc'
     },
-    label: {
+    labelCell: {
+      padding: '10px',
+      fontWeight: 'bold',
       width: '80px',
-      paddingRight: '10px',
       borderRight: '1px solid #ccc'
     },
+    inputCell: {
+      padding: '10px',
+      width: 'calc(100% - 80px)'
+    },
     input: {
-      flexGrow: 1,
-      marginLeft: '10px',
+      width: '100%',
       border: 'none',
       outline: 'none'
     },
     buttonContainer: {
-      marginTop: '20px'
+      textAlign: 'left',
+      backgroundColor: 'white',
+      padding: '10px'
     },
     button: {
       marginRight: '10px',
@@ -59,40 +63,51 @@ function UpdateForm({ selectedCustomer }) {
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Update</h2>
-      <form style={styles.form}>
-        <div style={styles.row}>
-          <label style={styles.label}>Name:</label>
-          <input 
-            style={styles.input}
-            type="text" 
-            value={selectedCustomer ? selectedCustomer.name : ''} 
-            readOnly
-          />
-        </div>
-        <div style={styles.row}>
-          <label style={styles.label}>Email:</label>
-          <input 
-            style={styles.input}
-            type="email" 
-            value={selectedCustomer ? selectedCustomer.email : ''} 
-            readOnly
-          />
-        </div>
-        <div style={styles.row}>
-          <label style={styles.label}>Pass:</label>
-          <input 
-            style={styles.input}
-            type="password" 
-            value={selectedCustomer ? selectedCustomer.pass : ''} 
-            readOnly
-          />
-        </div>
-        <div style={styles.buttonContainer}>
-          <button style={styles.button} type="button" onClick={onDeleteClick}>Delete</button>
-          <button style={styles.button} type="button" onClick={onSaveClick}>Save</button>
-          <button style={styles.button} type="button" onClick={onCancelClick}>Cancel</button>
-        </div>
-      </form>
+      <table style={styles.table}>
+        <tbody>
+          <tr style={styles.row}>
+            <td style={styles.labelCell}>Name:</td>
+            <td style={styles.inputCell}>
+              <input 
+                style={styles.input}
+                type="text" 
+                value={selectedCustomer ? selectedCustomer.name : ''} 
+                readOnly
+                placeholder="Customer Name"
+              />
+            </td>
+          </tr>
+          <tr style={styles.row}>
+            <td style={styles.labelCell}>Email:</td>
+            <td style={styles.inputCell}>
+              <input 
+                style={styles.input}
+                type="email" 
+                value={selectedCustomer ? selectedCustomer.email : ''} 
+                readOnly
+                placeholder="name@company.com"
+              />
+            </td>
+          </tr>
+          <tr style={styles.row}>
+            <td style={styles.labelCell}>Pass:</td>
+            <td style={styles.inputCell}>
+              <input 
+                style={styles.input}
+                type="password" 
+                value={selectedCustomer ? selectedCustomer.password : ''} 
+                readOnly
+                placeholder="password"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style={styles.buttonContainer}>
+        <button style={styles.button} type="button" onClick={onDeleteClick}>Delete</button>
+        <button style={styles.button} type="button" onClick={onSaveClick}>Save</button>
+        <button style={styles.button} type="button" onClick={onCancelClick}>Cancel</button>
+      </div>
     </div>
   );
 }
