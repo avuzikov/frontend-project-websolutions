@@ -94,7 +94,7 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
             <td style={styles.inputCell}>
               <input 
                 style={styles.input}
-                type="password" 
+                type="text" 
                 value={selectedCustomer ? selectedCustomer.password : ''} 
                 readOnly
                 placeholder="password"
