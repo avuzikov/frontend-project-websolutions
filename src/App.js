@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CustomerList from './components/CustomerList';
 import UpdateForm from './components/UpdateForm';
 
@@ -9,10 +9,29 @@ function App() {
     { name: 'Glen Glenns', email: 'gleng@abs.com', pass: 'gleng' }
   ];
 
-  return ( 
-    <div className="App">
-      <CustomerList customers={customerData} />
-      <UpdateForm />
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const handleCustomerSelect = (customer) => {
+    setSelectedCustomer(prevCustomer => 
+      prevCustomer && prevCustomer.email === customer.email ? null : customer
+    );
+  };
+
+  return (
+    <div className="App" style={{
+      backgroundColor: '#f0f0f0',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '10px',
+      boxSizing: 'border-box'
+    }}>
+      <CustomerList 
+        customers={customerData} 
+        selectedCustomer={selectedCustomer}
+        onCustomerSelect={handleCustomerSelect}
+      />
+      <UpdateForm selectedCustomer={selectedCustomer} />
     </div>
   );
 }
