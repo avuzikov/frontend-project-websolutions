@@ -62,7 +62,7 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>Update</h2>
+      <h2 style={styles.header}>{selectedCustomer ? 'Update' : 'Add' }</h2>
       <table style={styles.table}>
         <tbody>
           <tr style={styles.row}>
