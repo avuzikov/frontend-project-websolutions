@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import CustomerList from './components/CustomerList';
 import UpdateForm from './components/UpdateForm';
-import { getAll, deleteById } from './memdb';
+import * as restdb from './restdb';
 
 function App() {
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
-    setCustomers(getAll());
+    fetchCustomers();
   }, []);
+
+  const fetchCustomers = async () => {
+    try {
+      const data = await restdb.getAll();
+      setCustomers(data);
+    } catch (error) {
+      console.error('Error fetching customers:', error);
+      alert('Error fetching customers. Please try again.');
+    }
+  };
 
   const handleCustomerSelect = (customer) => {
     setSelectedCustomer(prevCustomer => 
@@ -21,27 +31,30 @@ function App() {
     setSelectedCustomer(null);
   };
 
-  const handleUpdateCustomer = (customerData) => {
-    if (customerData.id) {
-      setCustomers(prevCustomers => 
-        prevCustomers.map(customer => 
-          customer.id === customerData.id ? customerData : customer
-        )
-      );
-    } else {
-      const newCustomer = {
-        ...customerData,
-        id: Date.now()
-      };
-      setCustomers(prevCustomers => [...prevCustomers, newCustomer]);
+  const handleUpdateCustomer = async (customerData) => {
+    try {
+      if (customerData.id) {
+        await restdb.put(customerData.id, customerData);
+      } else {
+        await restdb.post(customerData);
+      }
+      fetchCustomers();
+      setSelectedCustomer(null);
+    } catch (error) {
+      console.error('Error updating customer:', error);
+      alert('Error updating customer. Please try again.');
     }
-    setSelectedCustomer(null);
   };
 
-  const handleDeleteCustomer = (customerId) => {
-    deleteById(customerId);
-    setCustomers(prevCustomers => prevCustomers.filter(customer => customer.id !== customerId));
-    setSelectedCustomer(null);
+  const handleDeleteCustomer = async (customerId) => {
+    try {
+      await restdb.deleteById(customerId);
+      fetchCustomers();
+      setSelectedCustomer(null);
+    } catch (error) {
+      console.error('Error deleting customer:', error);
+      alert('Error deleting customer. Please try again.');
+    }
   };
 
   return (
