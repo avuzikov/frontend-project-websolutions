@@ -56,7 +56,7 @@ The `restdb.js` file contains functions for interacting with a RESTful API:
 - `put(id, item)`: Updates an existing customer
 - `deleteById(id)`: Deletes a customer
 
-These functions use the Fetch API to make HTTP requests to the server running at `http://localhost:4000/customers`.
+These functions use the Fetch API to make HTTP requests to the server running at `http://localhost:4000/customers`
 
 ## Getting Started
 
