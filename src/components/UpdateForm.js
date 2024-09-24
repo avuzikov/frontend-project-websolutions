@@ -1,16 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
+function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, onDeleteCustomer }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    if (selectedCustomer) {
+      setFormData({
+        name: selectedCustomer.name,
+        email: selectedCustomer.email,
+        password: selectedCustomer.password
+      });
+    } else {
+      clearForm();
+    }
+  }, [selectedCustomer]);
+
+  useEffect(() => {
+    const { name, email, password } = formData;
+    const isValid = name.trim() !== '' && 
+                    email.trim() !== '' && 
+                    email.includes('@') && 
+                    password.trim() !== '';
+    setIsFormValid(isValid);
+  }, [formData]);
+
+  const clearForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      password: ''
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
   const onDeleteClick = () => {
-    console.log('in onDeleteClick()');
+    if (selectedCustomer) {
+      onDeleteCustomer(selectedCustomer.id);
+    }
   };
 
   const onSaveClick = () => {
-    console.log('in onSaveClick()');
+    if (selectedCustomer) {
+      onUpdateCustomer({
+        ...selectedCustomer,
+        ...formData
+      });
+    } else if (isFormValid) {
+      onUpdateCustomer(formData);
+    }
+    clearForm();
   };
 
   const onCancelClick = () => {
     onDeselectCustomer();
+    clearForm();
   };
 
   const styles = {
@@ -57,6 +113,10 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
       border: '1px solid #ccc',
       borderRadius: '5px',
       cursor: 'pointer'
+    },
+    disabledButton: {
+      opacity: 0.5,
+      cursor: 'not-allowed'
     }
   };
 
@@ -71,8 +131,9 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
               <input 
                 style={styles.input}
                 type="text" 
-                value={selectedCustomer ? selectedCustomer.name : ''} 
-                readOnly
+                name="name"
+                value={formData.name} 
+                onChange={handleInputChange}
                 placeholder="Customer Name"
               />
             </td>
@@ -83,8 +144,9 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
               <input 
                 style={styles.input}
                 type="email" 
-                value={selectedCustomer ? selectedCustomer.email : ''} 
-                readOnly
+                name="email"
+                value={formData.email} 
+                onChange={handleInputChange}
                 placeholder="name@company.com"
               />
             </td>
@@ -95,8 +157,9 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
               <input 
                 style={styles.input}
                 type="text" 
-                value={selectedCustomer ? selectedCustomer.password : ''} 
-                readOnly
+                name="password"
+                value={formData.password} 
+                onChange={handleInputChange}
                 placeholder="password"
               />
             </td>
@@ -104,8 +167,22 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer }) {
         </tbody>
       </table>
       <div style={styles.buttonContainer}>
-        <button style={styles.button} type="button" onClick={onDeleteClick}>Delete</button>
-        <button style={styles.button} type="button" onClick={onSaveClick}>Save</button>
+        <button 
+          style={{...styles.button, ...(selectedCustomer ? {} : styles.disabledButton)}} 
+          type="button" 
+          onClick={onDeleteClick} 
+          disabled={!selectedCustomer}
+        >
+          Delete
+        </button>
+        <button 
+          style={{...styles.button, ...(selectedCustomer || isFormValid ? {} : styles.disabledButton)}} 
+          type="button" 
+          onClick={onSaveClick} 
+          disabled={!selectedCustomer && !isFormValid}
+        >
+          Save
+        </button>
         <button style={styles.button} type="button" onClick={onCancelClick}>Cancel</button>
       </div>
     </div>

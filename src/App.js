@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CustomerList from './components/CustomerList';
 import UpdateForm from './components/UpdateForm';
-import { getAll } from './memdb';
+import { getAll, deleteById } from './memdb';
 
 function App() {
   const [customers, setCustomers] = useState([]);
@@ -13,11 +13,34 @@ function App() {
 
   const handleCustomerSelect = (customer) => {
     setSelectedCustomer(prevCustomer => 
-      prevCustomer && prevCustomer.email === customer.email ? null : customer
+      prevCustomer && prevCustomer.email === customer.email ? null : { ...customer }
     );
   };
 
   const handleDeselectCustomer = () => {
+    setSelectedCustomer(null);
+  };
+
+  const handleUpdateCustomer = (customerData) => {
+    if (customerData.id) {
+      setCustomers(prevCustomers => 
+        prevCustomers.map(customer => 
+          customer.id === customerData.id ? customerData : customer
+        )
+      );
+    } else {
+      const newCustomer = {
+        ...customerData,
+        id: Date.now()
+      };
+      setCustomers(prevCustomers => [...prevCustomers, newCustomer]);
+    }
+    setSelectedCustomer(null);
+  };
+
+  const handleDeleteCustomer = (customerId) => {
+    deleteById(customerId);
+    setCustomers(prevCustomers => prevCustomers.filter(customer => customer.id !== customerId));
     setSelectedCustomer(null);
   };
 
@@ -38,6 +61,8 @@ function App() {
       <UpdateForm 
         selectedCustomer={selectedCustomer} 
         onDeselectCustomer={handleDeselectCustomer}
+        onUpdateCustomer={handleUpdateCustomer}
+        onDeleteCustomer={handleDeleteCustomer}
       />
     </div>
   );
