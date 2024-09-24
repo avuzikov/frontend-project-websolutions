@@ -69,67 +69,16 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, on
     clearForm();
   };
 
-  const styles = {
-    container: {
-      backgroundColor: '#d0d0d0',
-      padding: '10px'
-    },
-    header: {
-      margin: '0 0 10px 0',
-      padding: '5px'
-    },
-    table: {
-      width: '100%',
-      borderCollapse: 'collapse',
-      backgroundColor: 'white'
-    },
-    row: {
-      borderBottom: '1px solid #ccc'
-    },
-    labelCell: {
-      padding: '10px',
-      fontWeight: 'bold',
-      width: '80px',
-      borderRight: '1px solid #ccc'
-    },
-    inputCell: {
-      padding: '10px',
-      width: 'calc(100% - 80px)'
-    },
-    input: {
-      width: '100%',
-      border: 'none',
-      outline: 'none'
-    },
-    buttonContainer: {
-      textAlign: 'left',
-      backgroundColor: 'white',
-      padding: '10px'
-    },
-    button: {
-      marginRight: '10px',
-      padding: '5px 10px',
-      backgroundColor: '#f5f5f5',
-      border: '1px solid #ccc',
-      borderRadius: '5px',
-      cursor: 'pointer'
-    },
-    disabledButton: {
-      opacity: 0.5,
-      cursor: 'not-allowed'
-    }
-  };
-
   return (
-    <div style={styles.container}>
-      <h2 style={styles.header}>{selectedCustomer ? 'Update' : 'Add' }</h2>
-      <table style={styles.table}>
+    <div className="bg-[#d0d0d0] p-2.5">
+      <h2 className="m-0 mb-2.5 p-1.5 font-bold text-xl">{selectedCustomer ? 'Update' : 'Add'}</h2>
+      <table className="w-full border-collapse bg-white">
         <tbody>
-          <tr style={styles.row}>
-            <td style={styles.labelCell}>Name:</td>
-            <td style={styles.inputCell}>
+          <tr className="border-b border-[#ccc]">
+            <td className="p-2.5 font-bold w-20 border-r border-[#ccc]">Name:</td>
+            <td className="p-2.5 w-[calc(100%-80px)]">
               <input 
-                style={styles.input}
+                className="w-full border-none outline-none"
                 type="text" 
                 name="name"
                 value={formData.name} 
@@ -138,11 +87,11 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, on
               />
             </td>
           </tr>
-          <tr style={styles.row}>
-            <td style={styles.labelCell}>Email:</td>
-            <td style={styles.inputCell}>
+          <tr className="border-b border-[#ccc]">
+            <td className="p-2.5 font-bold w-20 border-r border-[#ccc]">Email:</td>
+            <td className="p-2.5 w-[calc(100%-80px)]">
               <input 
-                style={styles.input}
+                className="w-full border-none outline-none"
                 type="email" 
                 name="email"
                 value={formData.email} 
@@ -151,11 +100,11 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, on
               />
             </td>
           </tr>
-          <tr style={styles.row}>
-            <td style={styles.labelCell}>Pass:</td>
-            <td style={styles.inputCell}>
+          <tr className="border-b border-[#ccc]">
+            <td className="p-2.5 font-bold w-20 border-r border-[#ccc]">Pass:</td>
+            <td className="p-2.5 w-[calc(100%-80px)]">
               <input 
-                style={styles.input}
+                className="w-full border-none outline-none"
                 type="text" 
                 name="password"
                 value={formData.password} 
@@ -166,9 +115,9 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, on
           </tr>
         </tbody>
       </table>
-      <div style={styles.buttonContainer}>
+      <div className="text-left bg-white p-2.5">
         <button 
-          style={{...styles.button, ...(selectedCustomer ? {} : styles.disabledButton)}} 
+          className={`mr-2.5 px-2.5 py-1.5 bg-[#f5f5f5] border border-[#ccc] rounded cursor-pointer ${!selectedCustomer && 'opacity-50 cursor-not-allowed'}`}
           type="button" 
           onClick={onDeleteClick} 
           disabled={!selectedCustomer}
@@ -176,14 +125,20 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, on
           Delete
         </button>
         <button 
-          style={{...styles.button, ...(selectedCustomer || isFormValid ? {} : styles.disabledButton)}} 
+          className={`mr-2.5 px-2.5 py-1.5 bg-[#f5f5f5] border border-[#ccc] rounded cursor-pointer ${(!selectedCustomer && !isFormValid) && 'opacity-50 cursor-not-allowed'}`}
           type="button" 
           onClick={onSaveClick} 
           disabled={!selectedCustomer && !isFormValid}
         >
           Save
         </button>
-        <button style={styles.button} type="button" onClick={onCancelClick}>Cancel</button>
+        <button 
+          className="mr-2.5 px-2.5 py-1.5 bg-[#f5f5f5] border border-[#ccc] rounded cursor-pointer"
+          type="button" 
+          onClick={onCancelClick}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

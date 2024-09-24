@@ -1,59 +1,27 @@
 import React from 'react';
 
 function CustomerList({ customers, selectedCustomer, onCustomerSelect }) {
-  const styles = {
-    container: {
-      backgroundColor: '#d0d0d0',
-      padding: '10px',
-      marginBottom: '10px',
-      flex: 1,
-      overflowY: 'auto'
-    },
-    header: {
-      margin: '0 0 10px 0',
-      padding: '5px'
-    },
-    table: {
-      width: '100%',
-      borderCollapse: 'collapse',
-      tableLayout: 'fixed'
-    },
-    headerRow: {
-      backgroundColor: '#f0f0f0'
-    },
-    headerCell: {
-      padding: '10px',
-      fontWeight: 'bold',
-      textAlign: 'left',
-      width: '33.33%'
-    },
-    dataRow: {
-      backgroundColor: 'white'
-    },
-    dataCell: {
-      padding: '10px',
-      border: '1px solid #ccc',
-      width: '33.33%', 
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
-    }
+  const isCustomerSelected = (customer) => {
+    return selectedCustomer &&
+           customer.id === selectedCustomer.id &&
+           customer.name === selectedCustomer.name &&
+           customer.email === selectedCustomer.email;
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.header}>Customer List</h2>
-      <table style={styles.table}>
+    <div className="bg-[#d0d0d0] p-2.5 mb-2.5 flex-1 overflow-y-auto">
+      <h2 className="m-0 mb-2.5 p-1.5 font-bold text-xl">Customer List</h2>
+      <table className="w-full border-collapse table-fixed">
         <colgroup>
-          <col style={{width: '33.33%'}} />
-          <col style={{width: '33.33%'}} />
-          <col style={{width: '33.33%'}} />
+          <col className="w-1/3" />
+          <col className="w-1/3" />
+          <col className="w-1/3" />
         </colgroup>
         <thead>
-          <tr style={styles.headerRow}>
-            <th style={styles.headerCell}>Name</th>
-            <th style={styles.headerCell}>Email</th>
-            <th style={styles.headerCell}>Pass</th>
+          <tr className="bg-[#f0f0f0]">
+            <th className="p-2.5 font-bold text-left w-1/3">Name</th>
+            <th className="p-2.5 font-bold text-left w-1/3">Email</th>
+            <th className="p-2.5 font-bold text-left w-1/3">Pass</th>
           </tr>
         </thead>
         <tbody>
@@ -61,15 +29,11 @@ function CustomerList({ customers, selectedCustomer, onCustomerSelect }) {
             <tr 
               key={index} 
               onClick={() => onCustomerSelect(customer)}
-              style={{
-                ...styles.dataRow,
-                cursor: 'pointer',
-                fontWeight: selectedCustomer && selectedCustomer.email === customer.email ? 'bold' : 'normal'
-              }}
+              className={`bg-white cursor-pointer ${isCustomerSelected(customer) ? 'font-bold' : 'font-normal'}`}
             >
-              <td style={styles.dataCell}>{customer.name}</td>
-              <td style={styles.dataCell}>{customer.email}</td>
-              <td style={styles.dataCell}>{customer.password}</td>
+              <td className="p-2.5 border border-[#ccc] w-1/3 whitespace-nowrap overflow-hidden overflow-ellipsis">{customer.name}</td>
+              <td className="p-2.5 border border-[#ccc] w-1/3 whitespace-nowrap overflow-hidden overflow-ellipsis">{customer.email}</td>
+              <td className="p-2.5 border border-[#ccc] w-1/3 whitespace-nowrap overflow-hidden overflow-ellipsis">{customer.password}</td>
             </tr>
           ))}
         </tbody>

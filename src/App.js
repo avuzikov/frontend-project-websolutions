@@ -23,7 +23,12 @@ function App() {
 
   const handleCustomerSelect = (customer) => {
     setSelectedCustomer(prevCustomer => 
-      prevCustomer && prevCustomer.email === customer.email ? null : { ...customer }
+      prevCustomer && 
+      prevCustomer.id === customer.id && 
+      prevCustomer.name === customer.name && 
+      prevCustomer.email === customer.email 
+        ? null 
+        : { ...customer }
     );
   };
 
@@ -33,12 +38,21 @@ function App() {
 
   const handleUpdateCustomer = async (customerData) => {
     try {
-      if (customerData.id) {
-        await restdb.put(customerData.id, customerData);
+      let updatedCustomer;
+      if (selectedCustomer && selectedCustomer.id) {
+        updatedCustomer = await restdb.put(selectedCustomer.id, {
+          ...selectedCustomer,
+          ...customerData
+        });
+        setCustomers(prevCustomers => 
+          prevCustomers.map(customer => 
+            customer.id === updatedCustomer.id ? updatedCustomer : customer
+          )
+        );
       } else {
-        await restdb.post(customerData);
+        updatedCustomer = await restdb.post(customerData);
+        setCustomers(prevCustomers => [...prevCustomers, updatedCustomer]);
       }
-      fetchCustomers();
       setSelectedCustomer(null);
     } catch (error) {
       console.error('Error updating customer:', error);
@@ -49,7 +63,7 @@ function App() {
   const handleDeleteCustomer = async (customerId) => {
     try {
       await restdb.deleteById(customerId);
-      fetchCustomers();
+      setCustomers(prevCustomers => prevCustomers.filter(customer => customer.id !== customerId));
       setSelectedCustomer(null);
     } catch (error) {
       console.error('Error deleting customer:', error);
@@ -58,14 +72,7 @@ function App() {
   };
 
   return (
-    <div className="App" style={{
-      backgroundColor: '#f0f0f0',
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '10px',
-      boxSizing: 'border-box'
-    }}>
+    <div className="App bg-[#f0f0f0] h-screen flex flex-col p-2.5 box-border">
       <CustomerList 
         customers={customers} 
         selectedCustomer={selectedCustomer}
