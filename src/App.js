@@ -24,9 +24,7 @@ function App() {
   const handleCustomerSelect = (customer) => {
     setSelectedCustomer(prevCustomer => 
       prevCustomer && 
-      prevCustomer.id === customer.id && 
-      prevCustomer.name === customer.name && 
-      prevCustomer.email === customer.email 
+      prevCustomer.id === customer.id
         ? null 
         : { ...customer }
     );
@@ -39,11 +37,9 @@ function App() {
   const handleUpdateCustomer = async (customerData) => {
     try {
       let updatedCustomer;
-      if (selectedCustomer && selectedCustomer.id) {
-        updatedCustomer = await restdb.put(selectedCustomer.id, {
-          ...selectedCustomer,
-          ...customerData
-        });
+      console.log(customerData)
+      if (customerData.hasOwnProperty('id') ) {
+        updatedCustomer = await restdb.put(customerData.id, customerData);
         setCustomers(prevCustomers => 
           prevCustomers.map(customer => 
             customer.id === updatedCustomer.id ? updatedCustomer : customer

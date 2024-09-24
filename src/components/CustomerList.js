@@ -2,10 +2,7 @@ import React from 'react';
 
 function CustomerList({ customers, selectedCustomer, onCustomerSelect }) {
   const isCustomerSelected = (customer) => {
-    return selectedCustomer &&
-           customer.id === selectedCustomer.id &&
-           customer.name === selectedCustomer.name &&
-           customer.email === selectedCustomer.email;
+    return selectedCustomer && customer.id === selectedCustomer.id
   };
 
   return (

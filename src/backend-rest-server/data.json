@@ -1,40 +1,22 @@
 {
   "customers": [
     {
-      "id": 0,
       "name": "Mary Jackson",
       "email": "maryj@abc.com",
-      "password": "maryj"
+      "password": "maryj",
+      "id": 0
     },
     {
-      "id": 1,
-      "name": "Karen Addamss",
+      "name": "Karen Addams",
       "email": "karena@abc.com",
-      "password": "karena"
+      "password": "karena",
+      "id": 1
     },
     {
-      "id": 2,
       "name": "Scott Ramsey",
       "email": "scottr@abc.com",
-      "password": "scottrt"
-    },
-    {
-      "name": "rtrj",
-      "email": "tjtrj@",
-      "password": "erhreh",
-      "id": 3
-    },
-    {
-      "id": 4,
-      "name": "Mary Jackson",
-      "email": "maryj@abc.com",
-      "password": "maryjfnr"
-    },
-    {
-      "id": 5,
-      "name": "Mary Jacksontrtrj",
-      "email": "maryj@abc.com",
-      "password": "maryj"
+      "password": "scottrt",
+      "id": 2
     }
   ]
 }

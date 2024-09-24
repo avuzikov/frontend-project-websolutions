@@ -55,8 +55,8 @@ function UpdateForm({ selectedCustomer, onDeselectCustomer, onUpdateCustomer, on
   const onSaveClick = () => {
     if (selectedCustomer) {
       onUpdateCustomer({
-        ...selectedCustomer,
-        ...formData
+        ...formData,
+        id: selectedCustomer.id
       });
     } else if (isFormValid) {
       onUpdateCustomer(formData);
