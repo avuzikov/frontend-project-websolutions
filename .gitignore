@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /src/backend-rest-server/node_modules
+/src/backend-rest-server/data.json
 
 # testing
 /coverage
